@@ -1,0 +1,74 @@
+1. source data/import-table-structure.sql;
+
+2. 
+create database decodemtl_addressbook;
+use decodemtl_addressbook;
+describe Account;
+insert into Account (email, password, createdOn, modifiedOn) value ('myemail@mail.com', 'password', 2015-11-22, now());
+
+describe AddressBook;
+insert into AddressBook (name, createdOn, modifiendOn) value ('Marian', '2015-11-22', now());
+
+describe Entry;
+insert into Entry (addressBookId, firstName, lastName, birthday, type, subtype, contentLineOne) values 
+(111, 'Marian', 'DuPre', '1988-08-12', 'home', 'phone', '514-484-5585'),
+(222, 'Greg', 'Dumont', '1988-07-12', 'home', 'phone', '514-484-5585'), 
+(333, 'Lina', 'Parieu', '1988-06-12', 'home', 'phone', '514-484-5585'); 
+ 
+
+3.
+select * from Account;
+select * from AddressBook;
+select * from Entry;
+
+4.
+update Account set ModifiedOn=now();
+update AddressBook set ModifiedOn=now();
+update Entry set contentLineTwo='55 Duluth East, Montreal, Qc';
+
+5.
+drop table Entry;
+
+6.
+drop table Account;
+
+7.
+source data/import-table-struecture.sql;
+source data/import-account.sql; source data/import-entry.sql; source data/import-addressbook.sql;
+
+8.
+-consectetuer.rhoncus.Nullam@temporloremeget.org
+-Donec Incorporated  | Ipsum Nunc LLC | In Consectetuer Ltd | Lacus Aliquam Rutrum Industries | Ac Ltd  | Mauris Consulting | Ornare Corporation
+-+-----+-----------+------------------+---------------------+
+-| id  | accountId | name             | createdOn           |
+-+-----+-----------+------------------+---------------------+
+-|   5 |        84 | Lorem Foundation | 2016-06-26 02:43:41 |
+-| 153 |        12 | Lorem Foundation | 2015-05-04 14:28:16 |
+-+-----+-----------+------------------+---------------------+
+
+9.
+1000 Accounts exist
+1100 Address Books exist
+4000 entries exist
+
+10.
+2687 entries born before Feb12th 1982
+2597 entries born on or after Jan1st 1965
+Abigail Rollins is listed as the eldest
+
+11.
+ select count(*) as notOther from Entry where (type!='other'); 2800 entries are not listed as other
+ select count(*) as homeOrWork from Entry where (type='home' or type='work'); 2800 entries are listed as home or work
+ select count(*) as phoneType from Entry where (subtype='phone'); answer is 600
+
+12.
+select count(*), accountId from AddressBook group by accountId order by count(*) desc; accountId 5 and accountID 14 tie with 19 address books each
+select count(*), addressBookId from Entry group by addressBookId order by count(*) desc; addressBookId 37 has the most entries at 52
+
+13.
+select count(*),contentLineOne from Entry where subtype='phone' and contentLineOne like '%3__-___-____';              21 entries
+select count(*),contentLineOne from Entry where type='home' and subtype='phone' and contentLineOne not like '%5%';    76 entries do not contain a 5
+select count(*),contentLineOne from Entry where type='work' and subtype='phone' and contentLineOne like '_-%';        60 entries are work phones with country codes
+
+
+
